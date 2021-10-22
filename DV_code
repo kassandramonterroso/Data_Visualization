@@ -1,0 +1,55 @@
+import matplotlib.pyplot as plt
+
+""" Importing data from CSV file """
+
+data = []
+
+with open('sephora_order.csv') as file_object:
+	for line in file_object:
+		data.append(line)
+
+
+""" Cleaning data """
+
+new_data = [d.strip(',,,,,\r\n') for d in data]
+
+new_data.remove(new_data[0])
+
+data2 = [new.split('"') for new in new_data]
+
+
+""" Creating x and y plot values """
+
+data_x = []
+data_y = []
+
+for d in data2:
+	d.remove(d[0])
+	d[-1] = d[-1].strip(',')
+	data_y.append(d[0])
+	data_x.append(d[-1])
+
+
+""" Generating a plot in a figure """
+
+fig, ax = plt.subplots()
+ax.plot(data_y, data_x)
+
+
+""" Title and labels """
+
+ax.set_title("Sephora Spending", fontsize = 20)
+
+ax.set_xlabel("Order Date", fontsize = 7)
+
+ax.set_ylabel("Order Total (CAD)", fontsize = 12)
+y = range(0,200,10)
+ax.set_yticks(y)
+ax.set_yticklabels(y)
+
+plt.setp(ax.get_xticklabels(),rotation = 80)
+
+
+""" Displaying plot """
+
+plt.show()
